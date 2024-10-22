@@ -6,7 +6,7 @@ from financeira import get_financials_in_portuguese, analisar_fleuriet_df, anali
 st.title("Análise Financeira de Ações")
 
 # Input do usuário para o ticker
-ticker = st.text_input("UFU - Financias corporativas. Digite o ticker da ação (ex: AMER3, BHIA3, MGLU3):")
+ticker = st.text_input("UFU - Financias Corporativas. Digite o ticker da ação (ex: AMER3, BHIA3, MGLU3):")
 
 # Adicionar botão para realizar a pesquisa
 if st.button("Pesquisar"):
