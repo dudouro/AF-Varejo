@@ -185,5 +185,51 @@ def calcular_zscore_df(df):
 
     return resultados
 
+def calcular_termometro_kanitz(df):
+    """
+    Calcula o Termômetro de Kanitz e seus componentes a partir de um DataFrame contendo os dados financeiros.
+
+    Args:
+        df (pd.DataFrame): DataFrame contendo os dados financeiros com os anos como colunas e as contas como linhas.
+
+    Returns:
+        pd.DataFrame: DataFrame com os resultados do Termômetro de Kanitz e seus componentes para cada ano.
+    """
+    # Criar um DataFrame para armazenar os resultados
+    resultados = pd.DataFrame(index=df.columns, columns=['Termômetro de Kanitz', 'Liquidez Geral', 'Endividamento', 'Imobilização do PL'])
+
+    for ano in df.columns:
+        try:
+            # Obter os valores financeiros para o ano
+            ativo_total = df.loc['Ativo Total', ano]
+            passivo_corrente = df.loc['Passivos Correntes', ano]
+            passivo_nao_corrente = df.loc['Total de Passivos Não Correntes Líquidos de Participações Minoritárias', ano]
+            patrimonio_liquido = df.loc['Patrimônio Líquido dos Acionistas', ano]
+            ativo_nao_corrente = df.loc['Ativos Não Corrente', ano]
+
+            # Calcular Liquidez Geral
+            liquidez_geral = (ativo_total) / (passivo_corrente + passivo_nao_corrente)
+
+            # Calcular Endividamento
+            endividamento = (passivo_corrente + passivo_nao_corrente) / patrimonio_liquido if patrimonio_liquido != 0 else 0
+
+            # Calcular Imobilização do PL
+            imobilizacao_pl = ativo_nao_corrente / patrimonio_liquido if patrimonio_liquido != 0 else 0
+
+            # Calcular o Termômetro de Kanitz
+            termometro_kanitz = (2 * liquidez_geral) + (5 * endividamento) + (4 * imobilizacao_pl)
+
+            # Armazenar os resultados no DataFrame
+            resultados.loc[ano, 'Termômetro de Kanitz'] = termometro_kanitz
+            resultados.loc[ano, 'Liquidez Geral'] = liquidez_geral
+            resultados.loc[ano, 'Endividamento'] = endividamento
+            resultados.loc[ano, 'Imobilização do PL'] = imobilizacao_pl
+
+        except KeyError as e:
+            print(f"Erro: {e} não encontrado para o ano {ano}. Verifique se o nome da coluna está correto.")
+
+    return resultados
+
+
 
 
