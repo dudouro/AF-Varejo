@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from financeira import get_financials_in_portuguese, analisar_fleuriet_df, analisar_dupont_df, calcular_zscore_df
+from financeira import get_financials_in_portuguese, analisar_fleuriet_df, analisar_dupont_df, calcular_zscore_df, calcular_termometro_kanitz
 
 # Interface Streamlit
 st.title("Análise Financeira de Ações")
