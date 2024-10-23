@@ -2,6 +2,11 @@ import streamlit as st
 import pandas as pd
 from financeira import get_financials_in_portuguese, analisar_fleuriet_df, analisar_dupont_df, calcular_zscore_df, calcular_termometro_kanitz
 
+# Função para verificar se o ticker é de uma ação brasileira
+def is_brazilian_stock(ticker):
+    # Ações brasileiras geralmente têm 4 letras e um número no final (ex: PETR4, VALE3)
+    return len(ticker) == 5 and ticker[-1].isdigit()
+
 # Interface Streamlit
 st.title("Análise Financeira de Ações")
 
@@ -10,7 +15,8 @@ ticker = st.text_input("UFU - Financias Corporativas. Digite o ticker da ação 
 
 # Adicionar botão para realizar a pesquisa
 if st.button("Pesquisar"):
-    ticker = ticker + ".SA"  # Adicionar sufixo para ações brasileiras
+    if is_brazilian_stock(ticker):
+        ticker = ticker + ".SA"  # Adicionar sufixo para ações brasileiras
 
     try:
         # Obter os dados financeiros
@@ -32,7 +38,7 @@ if st.button("Pesquisar"):
         st.subheader("Cálculo do Z-Score")
         st.dataframe(zscore_df)
 
-        st.subheader("Termometro de Kanitz")
+        st.subheader("Termômetro de Kanitz")
         st.dataframe(termo)
 
     except Exception as e:
