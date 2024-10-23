@@ -233,8 +233,5 @@ def calcular_termometro_kanitz(df):
     
     return resultados
 
-    return resultados
-
-
 
 
