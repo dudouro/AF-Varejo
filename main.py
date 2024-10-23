@@ -20,6 +20,7 @@ if st.button("Pesquisar"):
         fleuriet_df = analisar_fleuriet_df(balance_sheet)
         dupont_df = analisar_dupont_df(balance_sheet)
         zscore_df = calcular_zscore_df(balance_sheet)
+        termo = calcular_termometro_kanitz(balance_sheet)
 
         # Exibir os resultados das análises
         st.subheader("Análise Fleuriet")
@@ -30,6 +31,9 @@ if st.button("Pesquisar"):
 
         st.subheader("Cálculo do Z-Score")
         st.dataframe(zscore_df)
+
+        st.subheader("Termometro de Kanitz")
+        st.dataframe(termo)
 
     except Exception as e:
         st.error(f"Ocorreu um erro ao realizar as análises: {e}")
